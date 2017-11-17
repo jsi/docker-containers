@@ -4,6 +4,9 @@ MAINTAINER Jørgen Sivesind <jsi@enoic.com>
 
 USER root
 
+RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
+RUN chrome --version
+
 # NodeJS
 RUN apt-get update
 RUN apt-get install -y curl
