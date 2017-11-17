@@ -4,16 +4,31 @@ MAINTAINER Jørgen Sivesind <jsi@enoic.com>
 
 USER root
 
+# Tools
+RUN apt-get update
+RUN apt-get install -y curl
+RUN apt-get install -y unzip
+#RUN apt-get install -y git
+
+# Checking Chrome
 RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
 RUN chrome --version
 
+# Chrome webdriver
+ARG CHROME_DRIVER_VERSION="latest"
+RUN CD_VERSION=$(if [ ${CHROME_DRIVER_VERSION:-latest} = "latest" ]; then echo $(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE); else echo $CHROME_DRIVER_VERSION; fi) \
+  && echo "Using chromedriver version: "$CD_VERSION \
+  && wget --no-verbose -O /tmp/chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$CD_VERSION/chromedriver_linux64.zip \
+  && rm -rf /opt/selenium/chromedriver \
+  && unzip /tmp/chromedriver_linux64.zip -d /opt/selenium \
+  && rm /tmp/chromedriver_linux64.zip \
+  && mv /opt/selenium/chromedriver /opt/selenium/chromedriver-$CD_VERSION \
+  && chmod 755 /opt/selenium/chromedriver-$CD_VERSION \
+  && sudo ln -fs /opt/selenium/chromedriver-$CD_VERSION /usr/bin/chromedriver
+
 # NodeJS
-RUN apt-get update
-RUN apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install -y nodejs
-
-#RUN apt-get install -y git
 
 # Set locale
 RUN locale-gen en_US.UTF-8
