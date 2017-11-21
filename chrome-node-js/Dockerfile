@@ -5,14 +5,16 @@ MAINTAINER Jørgen Sivesind <jsi@enoic.com>
 USER root
 
 # Tools
-RUN apt-get update
-RUN apt-get install -y curl
-RUN apt-get install -y unzip
-#RUN apt-get install -y git
+RUN apt-get update \
+    && apt-get install -y curl unzip
+
+# NodeJS
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get install -y nodejs
 
 # Checking Chrome
 RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
-RUN chrome --version
+#RUN chrome --version
 
 # Chrome webdriver
 ARG CHROME_DRIVER_VERSION="latest"
@@ -25,10 +27,6 @@ RUN CD_VERSION=$(if [ ${CHROME_DRIVER_VERSION:-latest} = "latest" ]; then echo $
   && mv /opt/selenium/chromedriver /opt/selenium/chromedriver-$CD_VERSION \
   && chmod 755 /opt/selenium/chromedriver-$CD_VERSION \
   && sudo ln -fs /opt/selenium/chromedriver-$CD_VERSION /usr/bin/chromedriver
-
-# NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN apt-get install -y nodejs
 
 # Set locale
 RUN locale-gen en_US.UTF-8
