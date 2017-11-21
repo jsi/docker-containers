@@ -1,8 +1,15 @@
-FROM alpeware/chrome-headless-stable
+FROM enonic/java8
 
 MAINTAINER Jørgen Sivesind <jsi@enoic.com>
 
 USER root
+
+# Setup
+EXPOSE 9222
+ADD start.sh import_cert.sh /usr/bin/
+RUN mkdir /data
+VOLUME /data
+ENV HOME=/data DEBUG_ADDRESS=0.0.0.0 DEBUG_PORT=9222
 
 # Tools
 RUN apt-get update \
@@ -18,9 +25,24 @@ RUN curl -L -o /usr/local/bin/linx-client https://github.com/andreimarcu/linx-cl
   && mkdir /data/.config
 ADD linx-client.conf /data/.config/
 
+# Chrome
+RUN apt-get update -qqy \
+  && apt-get -qqy install libnss3 libnss3-tools libfontconfig1 wget ca-certificates apt-transport-https inotify-tools \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+ENV CHROME_VERSION=62.0.3202.94
+
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+  && apt-get update -qqy \
+  && apt-get -qqy install google-chrome-stable=${CHROME_VERSION}-1 \
+  && rm /etc/apt/sources.list.d/google-chrome.list \
+  && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
 # Checking Chrome
 RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
-#RUN chrome --version
+RUN chrome --version
+CMD ["/usr/bin/start.sh"]
 
 # Chrome webdriver
 ARG CHROME_DRIVER_VERSION="latest"
@@ -32,21 +54,4 @@ RUN CD_VERSION=$(if [ ${CHROME_DRIVER_VERSION:-latest} = "latest" ]; then echo $
   && rm /tmp/chromedriver_linux64.zip \
   && mv /opt/selenium/chromedriver /opt/selenium/chromedriver-$CD_VERSION \
   && chmod 755 /opt/selenium/chromedriver-$CD_VERSION \
-  && sudo ln -fs /opt/selenium/chromedriver-$CD_VERSION /usr/bin/chromedriver
-
-# Set locale
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
-# Accept Oracle license before installing java
-RUN echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
-RUN echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
-
-# Install java
-RUN apt-get -y install software-properties-common
-RUN add-apt-repository -y ppa:webupd8team/java
-RUN apt-get update
-RUN apt-get -y install oracle-java8-installer oracle-java8-set-default
-RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> /etc/environment
+  && ln -fs /opt/selenium/chromedriver-$CD_VERSION /usr/bin/chromedriver
