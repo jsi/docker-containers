@@ -12,6 +12,12 @@ RUN apt-get update \
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install -y nodejs
 
+# Linx client
+RUN curl -L -o /usr/local/bin/linx-client https://github.com/andreimarcu/linx-client/releases/download/v1.4.0/linx-client-v1.4_linux-amd64 \
+  && chmod 755 /usr/local/bin/linx-client \
+  && mkdir /data/.config
+ADD linx-client.conf /data/.config/
+
 # Checking Chrome
 RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
 #RUN chrome --version
