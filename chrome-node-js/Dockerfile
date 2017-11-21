@@ -6,10 +6,12 @@ USER root
 
 # Setup
 EXPOSE 9222
-ADD start.sh import_cert.sh /usr/bin/
+ADD import_cert.sh /usr/bin/
+#ADD start.sh import_cert.sh /usr/bin/
 RUN mkdir /data
 VOLUME /data
-ENV HOME=/data DEBUG_ADDRESS=0.0.0.0 DEBUG_PORT=9222
+ENV HOME=/data
+#ENV HOME=/data DEBUG_ADDRESS=0.0.0.0 DEBUG_PORT=9222
 
 # Tools
 RUN apt-get update \
@@ -41,8 +43,8 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
 
 # Checking Chrome
 RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
-RUN chrome --version
-CMD ["/usr/bin/start.sh"]
+# RUN chrome --version
+# CMD ["/usr/bin/start.sh"]
 
 # Chrome webdriver
 ARG CHROME_DRIVER_VERSION="latest"
