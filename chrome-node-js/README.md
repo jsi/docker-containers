@@ -3,7 +3,6 @@
 This image is made to include all resources necessary to run Selenium based UI tests, written with JavaScript, in Concourse.  Added software includes.
  * NodeJS (for running UI tests written in JavaScript)
  * Java8 (full JDK with javac)
- * Chromedriver (for running Selenium tests)
  * Linx client for uploading screenshots and report-files after the completion of the tests (https://github.com/andreimarcu/linx-client) - Since 0.5.4
 
 # Version history:
