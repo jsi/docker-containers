@@ -1,6 +1,6 @@
 FROM enonic/java8
 
-MAINTAINER Jørgen Sivesind <jsi@enoic.com>
+MAINTAINER Jørgen Sivesind <jsi@enonic.com>
 
 USER root
 
