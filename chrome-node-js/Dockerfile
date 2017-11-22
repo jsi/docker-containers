@@ -7,11 +7,9 @@ USER root
 # Setup
 EXPOSE 9222
 ADD import_cert.sh /usr/bin/
-#ADD start.sh import_cert.sh /usr/bin/
 RUN mkdir /data
 VOLUME /data
 ENV HOME=/data
-#ENV HOME=/data DEBUG_ADDRESS=0.0.0.0 DEBUG_PORT=9222
 
 # Tools
 RUN apt-get update \
@@ -43,17 +41,15 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
 
 # Checking Chrome
 RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
-# RUN chrome --version
-# CMD ["/usr/bin/start.sh"]
 
 # Chrome webdriver
-ARG CHROME_DRIVER_VERSION="latest"
-RUN CD_VERSION=$(if [ ${CHROME_DRIVER_VERSION:-latest} = "latest" ]; then echo $(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE); else echo $CHROME_DRIVER_VERSION; fi) \
-  && echo "Using chromedriver version: "$CD_VERSION \
-  && wget --no-verbose -O /tmp/chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$CD_VERSION/chromedriver_linux64.zip \
-  && rm -rf /opt/selenium/chromedriver \
-  && unzip /tmp/chromedriver_linux64.zip -d /opt/selenium \
-  && rm /tmp/chromedriver_linux64.zip \
-  && mv /opt/selenium/chromedriver /opt/selenium/chromedriver-$CD_VERSION \
-  && chmod 755 /opt/selenium/chromedriver-$CD_VERSION \
-  && ln -fs /opt/selenium/chromedriver-$CD_VERSION /usr/bin/chromedriver
+# ARG CHROME_DRIVER_VERSION="latest"
+# RUN CD_VERSION=$(if [ ${CHROME_DRIVER_VERSION:-latest} = "latest" ]; then echo $(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE); else echo $CHROME_DRIVER_VERSION; fi) \
+#   && echo "Using chromedriver version: "$CD_VERSION \
+#   && wget --no-verbose -O /tmp/chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$CD_VERSION/chromedriver_linux64.zip \
+#   && rm -rf /opt/selenium/chromedriver \
+#   && unzip /tmp/chromedriver_linux64.zip -d /opt/selenium \
+#   && rm /tmp/chromedriver_linux64.zip \
+#  && mv /opt/selenium/chromedriver /opt/selenium/chromedriver-$CD_VERSION \
+#  && chmod 755 /opt/selenium/chromedriver-$CD_VERSION \
+#  && ln -fs /opt/selenium/chromedriver-$CD_VERSION /usr/bin/chromedriver
