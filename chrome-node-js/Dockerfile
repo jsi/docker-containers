@@ -5,7 +5,6 @@ MAINTAINER Jørgen Sivesind <jsi@enoic.com>
 USER root
 
 # Setup
-#ADD import_cert.sh /usr/bin/
 RUN mkdir /data
 VOLUME /data
 ENV HOME=/data
@@ -38,6 +37,6 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
   && rm /etc/apt/sources.list.d/google-chrome.list \
   && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-# Checking Chrome
+# Preparing Chrome to be used by tests.
 RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
 
