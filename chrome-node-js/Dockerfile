@@ -11,6 +11,7 @@ ENV HOME=/data
 
 # Tools
 RUN apt-get update \
+    && apt-get install -y curl zip \
     && apt-get install -y curl unzip
 
 # NodeJS
@@ -40,3 +41,14 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
 # Preparing Chrome to be used by tests.
 RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
 
+# Chrome webdriver
+ARG CHROME_DRIVER_VERSION="latest"
+RUN CD_VERSION=$(if [ ${CHROME_DRIVER_VERSION:-latest} = "latest" ]; then echo $(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE); else echo $CHROME_DRIVER_VERSION; fi) \
+  && echo "Using chromedriver version: "$CD_VERSION \
+  && wget --no-verbose -O /tmp/chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$CD_VERSION/chromedriver_linux64.zip \
+  && rm -rf /opt/selenium/chromedriver \
+  && unzip /tmp/chromedriver_linux64.zip -d /opt/selenium \
+  && rm /tmp/chromedriver_linux64.zip \
+  && mv /opt/selenium/chromedriver /opt/selenium/chromedriver-$CD_VERSION \
+  && chmod 755 /opt/selenium/chromedriver-$CD_VERSION \
+  && ln -fs /opt/selenium/chromedriver-$CD_VERSION /usr/local/bin/chromedriver
