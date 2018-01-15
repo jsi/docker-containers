@@ -10,5 +10,6 @@ This image is made to include all resources necessary to run Selenium based UI t
  * *0.5* : First attempt, based on alpeware/chrome-headless-stable
  * *0.6* : Integrated Chrome into this image, based on Ubuntu 14.04 via enonic/java8
  * *1.0* : A clean version that works for Enonic.
+ * *1.1* : Included the Chrome WebDriver, "latest" version.
 
 Inspired by: [the National Library of Norway](https://github.com/nlnwa/docker-chrome-headless)
