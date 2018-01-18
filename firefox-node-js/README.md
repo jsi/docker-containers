@@ -8,4 +8,5 @@ This image is made to include all resources necessary to run Selenium based UI t
 
 # Version history:
  * *0.5* : First attempt.
+ * *0.5.1* : Firefox 57.0.4, Geckodriver 0.19.1
 
