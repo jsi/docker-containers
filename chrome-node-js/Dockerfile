@@ -12,7 +12,8 @@ ENV HOME=/data
 # Tools
 RUN apt-get update \
     && apt-get install -y curl zip \
-    && apt-get install -y curl unzip
+    && apt-get install -y curl unzip \
+    && apt-get install -y make
 
 # NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
@@ -25,21 +26,30 @@ RUN curl -L -o /usr/local/bin/linx-client https://github.com/andreimarcu/linx-cl
 ADD linx-client.conf /data/.config/
 
 # Chrome
+ENV REV=532422
+
 RUN apt-get update -qqy \
   && apt-get -qqy install libnss3 libnss3-tools libfontconfig1 wget ca-certificates apt-transport-https inotify-tools \
+  libpangocairo-1.0-0 libx11-xcb-dev libxcomposite-dev libxcursor1 libxdamage1 libxi6 libgconf-2-4 libxtst6 libcups2-dev \
+  libxss-dev libxrandr-dev libasound2-dev libatk1.0-dev libgtk-3-dev ttf-ancient-fonts chromium-codecs-ffmpeg-extra \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-ENV CHROME_VERSION=63.0.3239.132
+RUN wget -q -O chrome.zip https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/$REV/chrome-linux.zip \
+  && unzip chrome.zip \
+  && rm chrome.zip \
+  && ln -s $PWD/chrome-linux/chrome /usr/local/bin/chrome
 
-RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-  && apt-get update -qqy \
-  && apt-get -qqy install google-chrome-stable=${CHROME_VERSION}-1 \
-  && rm /etc/apt/sources.list.d/google-chrome.list \
-  && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+# ENV CHROME_VERSION=65.0.3322.3-1
+
+# RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+#   && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+#   && apt-get update -qqy \
+#   && apt-get -qqy install google-chrome-unstable=${CHROME_VERSION} \
+#   && rm /etc/apt/sources.list.d/google-chrome.list \
+#   && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 # Preparing Chrome to be used by tests.
-RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
+# RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
 
 # Chrome webdriver
 ARG CHROME_DRIVER_VERSION="latest"
