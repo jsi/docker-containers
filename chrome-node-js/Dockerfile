@@ -11,9 +11,8 @@ ENV HOME=/data
 
 # Tools
 RUN apt-get update \
-    && apt-get install -y curl zip \
-    && apt-get install -y curl unzip \
-    && apt-get install -y make
+    && apt-get install -y curl zip unzip make \
+    && apt-get clean
 
 # NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
