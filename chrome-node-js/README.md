@@ -14,5 +14,6 @@ This image is made to include all resources necessary to run Selenium based UI t
  * *1.1.2* : Updated Chrome to version 63.0.3239.132, ChromeDriver = 2.35
  * *1.1.3* : Manually set ChromeDriver = 2.34, due to problems with 2.35
  * *1.2.0* : Added make to be used for testing our Applications App
+ * *1.3.0* : Chrome 65, ChromeDriver 2.37
 
 Inspired by: [the National Library of Norway](https://github.com/nlnwa/docker-chrome-headless)

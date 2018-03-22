@@ -25,7 +25,7 @@ RUN curl -L -o /usr/local/bin/linx-client https://github.com/andreimarcu/linx-cl
 ADD linx-client.conf /data/.config/
 
 # Chrome
-ENV REV=532422
+ENV REV=530372
 
 RUN apt-get update -qqy \
   && apt-get -qqy install libnss3 libnss3-tools libfontconfig1 wget ca-certificates apt-transport-https inotify-tools \
