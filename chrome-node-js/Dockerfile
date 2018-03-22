@@ -18,11 +18,15 @@ RUN apt-get update \
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install -y nodejs
 
-# Linx client
-RUN curl -L -o /usr/local/bin/linx-client https://github.com/andreimarcu/linx-client/releases/download/v1.4.0/linx-client-v1.4_linux-amd64 \
-  && chmod 755 /usr/local/bin/linx-client \
-  && mkdir /data/.config
-ADD linx-client.conf /data/.config/
+# Gradle
+ENV GRADLE_VERSION=4.6
+ENV GRADLE_HOME=/opt/gradle
+RUN wget --no-check-certificate --no-cookies https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
+    && unzip gradle-${GRADLE_VERSION}-bin.zip -d /opt \
+    && ln -s /opt/gradle-${GRADLE_VERSION} /opt/gradle \
+    && rm -f gradle-${GRADLE_VERSION}-bin.zip
+RUN update-alternatives --install "/usr/bin/gradle" "gradle" "/opt/gradle/bin/gradle" 1 && \
+    update-alternatives --set "gradle" "/opt/gradle/bin/gradle"
 
 # Chrome
 ENV REV=530372
@@ -37,18 +41,6 @@ RUN wget -q -O chrome.zip https://commondatastorage.googleapis.com/chromium-brow
   && unzip chrome.zip \
   && rm chrome.zip \
   && ln -s $PWD/chrome-linux/chrome /usr/local/bin/chrome
-
-# ENV CHROME_VERSION=65.0.3322.3-1
-
-# RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-#   && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-#   && apt-get update -qqy \
-#   && apt-get -qqy install google-chrome-unstable=${CHROME_VERSION} \
-#   && rm /etc/apt/sources.list.d/google-chrome.list \
-#   && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-# Preparing Chrome to be used by tests.
-# RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
 
 # Chrome webdriver
 ARG CHROME_DRIVER_VERSION="latest"
