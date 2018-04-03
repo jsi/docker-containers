@@ -1,0 +1,65 @@
+postgres:
+  build: postgres
+  volumes_from:
+    - storage
+  restart: always
+  environment:
+    POSTGRES_DB: concourse
+    POSTGRES_USER: concourse
+    POSTGRES_PASSWORD: s0Y6qWFQwToZMZJJ
+  labels:
+    io.enonic.backup.enable: "yes"
+    io.enonic.backup.prescripts: "/usr/local/bin/backup-pre.sh"
+    io.enonic.backup.postscripts: "/usr/local/bin/backup-post.sh"
+    io.enonic.backup.data: "/backup"
+
+web:
+  build: concourse-web
+  ports:
+    - "38080:8080"
+  links:
+    - postgres
+  restart: unless-stopped
+  environment:
+    CONCOURSE_BASIC_AUTH_USERNAME: concourse
+    CONCOURSE_BASIC_AUTH_PASSWORD: sKjxC8pD2zobDB9A
+    CONCOURSE_POSTGRES_HOST: postgres
+    CONCOURSE_POSTGRES_USER: concourse
+    CONCOURSE_POSTGRES_PASSWORD: s0Y6qWFQwToZMZJJ
+    CONCOURSE_POSTGRES_DATABASE: concourse
+
+worker:
+  build: concourse-worker
+  privileged: true
+  links:
+    - web
+  environment:
+    CONCOURSE_TSA_HOST: web
+
+storage:
+  image: busybox
+  volumes:
+    - /var/lib/postgresql/data
+
+apache:
+  build: apache2
+  restart: always
+  hostname: ci.enonic.io
+  ports:
+    - "80:80"
+    - "443:443"
+  links:
+    - web
+  volumes_from:
+    - letsencryptstore
+  environment:
+    LETS_ENCRYPT_EMAIL: "operations@enonic.com"
+    LETS_ENCRYPT_DOMAINS: "ci.enonic.io"
+  labels:
+    io.enonic.backup.data: "/etc/letsencrypt,/var/lib/letsencrypt"
+
+letsencryptstore:
+  image: busybox
+  volumes:
+    - "/etc/letsencrypt"
+    - "/var/lib/letsencrypt"
