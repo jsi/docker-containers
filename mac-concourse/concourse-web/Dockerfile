@@ -1,4 +1,4 @@
-FROM concourse/concourse:3.8.0
+FROM concourse/concourse:3.10.0
 COPY keys /concourse-keys
 
 CMD ["web"]

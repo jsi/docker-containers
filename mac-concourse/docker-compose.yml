@@ -35,7 +35,7 @@ worker:
   links:
     - web
   environment:
-    CONCOURSE_TSA_HOST: web
+    CONCOURSE_TSA_HOST: web:2222
 
 storage:
   image: busybox
