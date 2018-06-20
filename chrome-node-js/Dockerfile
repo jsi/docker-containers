@@ -29,18 +29,17 @@ RUN update-alternatives --install "/usr/bin/gradle" "gradle" "/opt/gradle/bin/gr
     update-alternatives --set "gradle" "/opt/gradle/bin/gradle"
 
 # Chrome
-ENV REV=530372
+ENV CHROME_VERSION=67.0.3396.87
 
-RUN apt-get update -qqy \
-  && apt-get -qqy install libnss3 libnss3-tools libfontconfig1 wget ca-certificates apt-transport-https inotify-tools \
-  libpangocairo-1.0-0 libx11-xcb-dev libxcomposite-dev libxcursor1 libxdamage1 libxi6 libgconf-2-4 libxtst6 libcups2-dev \
-  libxss-dev libxrandr-dev libasound2-dev libatk1.0-dev libgtk-3-dev ttf-ancient-fonts chromium-codecs-ffmpeg-extra \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+  && apt-get update -qqy \
+  && apt-get -qqy install google-chrome-stable=${CHROME_VERSION}-1 \
+  && rm /etc/apt/sources.list.d/google-chrome.list \
+  && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-RUN wget -q -O chrome.zip https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/$REV/chrome-linux.zip \
-  && unzip chrome.zip \
-  && rm chrome.zip \
-  && ln -s $PWD/chrome-linux/chrome /usr/local/bin/chrome
+# Preparing Chrome to be used by tests.
+RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
 
 # Chrome webdriver
 ARG CHROME_DRIVER_VERSION="latest"

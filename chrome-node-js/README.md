@@ -17,5 +17,6 @@ This image is made to include all resources necessary to run Selenium based UI t
  * *1.2.0* : Added make to be used for testing our Applications App
  * *1.3.0* : Chrome 65.0.3325.0, ChromeDriver 2.37
  * *1.4.0* : Added gradle 4.6 after the recipe of "frekele/gradle".  Removed the Linx client, which we have not used at all.
+ * *1.4.1* : Trying ChromeDriver 2.36
+ * *1.5.0* : Chrome 67.0.3396.87, ChromeDriver 2.40
 
-Inspired by: [the National Library of Norway](https://github.com/nlnwa/docker-chrome-headless)
