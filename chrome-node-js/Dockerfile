@@ -1,4 +1,4 @@
-FROM enonic/java8
+FROM openjdk:11-jdk
 
 MAINTAINER Jørgen Sivesind <jsi@enonic.com>
 
@@ -10,16 +10,14 @@ VOLUME /data
 ENV HOME=/data
 
 # Tools
-RUN apt-get update \
-    && apt-get install -y curl zip unzip make \
-    && apt-get clean
+RUN apt update 
 
 # NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN apt-get install -y nodejs
+RUN apt install -y nodejs
+RUN apt clean
 
 # Gradle
-ENV GRADLE_VERSION=4.6
+ENV GRADLE_VERSION=4.9
 ENV GRADLE_HOME=/opt/gradle
 RUN wget --no-check-certificate --no-cookies https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
     && unzip gradle-${GRADLE_VERSION}-bin.zip -d /opt \
@@ -29,20 +27,20 @@ RUN update-alternatives --install "/usr/bin/gradle" "gradle" "/opt/gradle/bin/gr
     update-alternatives --set "gradle" "/opt/gradle/bin/gradle"
 
 # Chrome
-ENV CHROME_VERSION=67.0.3396.87
+ENV CHROME_VERSION=69.0.3497.100
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-  && apt-get update -qqy \
-  && apt-get -qqy install google-chrome-stable=${CHROME_VERSION}-1 \
+  && apt update -qqy \
+  && apt -qqy install google-chrome-stable=${CHROME_VERSION}-1 \
   && rm /etc/apt/sources.list.d/google-chrome.list \
-  && sudo rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 # Preparing Chrome to be used by tests.
 RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
 
 # Chrome webdriver
-ARG CHROME_DRIVER_VERSION="latest"
+ARG CHROME_DRIVER_VERSION="2.42"
 RUN CD_VERSION=$(if [ ${CHROME_DRIVER_VERSION:-latest} = "latest" ]; then echo $(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE); else echo $CHROME_DRIVER_VERSION; fi) \
   && echo "Using chromedriver version: "$CD_VERSION \
   && wget --no-verbose -O /tmp/chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$CD_VERSION/chromedriver_linux64.zip \
