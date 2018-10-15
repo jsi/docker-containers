@@ -14,6 +14,7 @@ RUN apt update
 
 # NodeJS
 RUN apt install -y nodejs
+RUN curl -L https://www.npmjs.com/install.sh | sh
 RUN apt clean
 
 # Gradle
