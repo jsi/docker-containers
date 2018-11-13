@@ -28,7 +28,7 @@ RUN update-alternatives --install "/usr/bin/gradle" "gradle" "/opt/gradle/bin/gr
     update-alternatives --set "gradle" "/opt/gradle/bin/gradle"
 
 # Chrome
-ENV CHROME_VERSION=69.0.3497.100
+ENV CHROME_VERSION=70.0.3538.102
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
