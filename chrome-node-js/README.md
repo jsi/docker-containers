@@ -27,3 +27,4 @@ Versions prior to 2.0.0 used Java8.
    * Gradle 4.9
    * Cleaned up several of the tools that used to be installed, but were not used.
  * *2.0.1* : Added npm in a separate install.
+ * *2.0.2* : Chrome 70.0.3538.102
