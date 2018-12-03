@@ -25,6 +25,7 @@ Versions prior to 2.0.0 used Java8.
    * Chrome 69.0.3497.100
    * ChromeDriver 2.42
    * Gradle 4.9
+   * Node JS v8.11.2
    * Cleaned up several of the tools that used to be installed, but were not used.
- * *2.0.1* : Added npm in a separate install.
+ * *2.0.1* : Added npm v6.4.1 in a separate install.
  * *2.0.2* : Chrome 70.0.3538.102

@@ -5,10 +5,12 @@ This image is made to include all resources necessary to run k6 performance test
 
 WARNING: This image is purely experimental.  It is only moved to Docker Hub in order to enable Concourse to access it.
 
- * Based on: openjdk:jdk-11 
- * Includes:
- ** k6 
- ** Gradle 4.9
+Based on:
+ * openjdk:jdk-11 
+
+Includes:
+ * k6 
+ * Gradle 4.9
 
 Versions:
  * 0.5: Initial attempt
