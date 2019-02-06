@@ -29,3 +29,4 @@ Versions prior to 2.0.0 used Java8.
    * Cleaned up several of the tools that used to be installed, but were not used.
  * *2.0.1* : Added npm v6.4.1 in a separate install.
  * *2.0.2* : Chrome 70.0.3538.102
+ * *2.0.3* : Chrome 72.0.3626.81

@@ -28,14 +28,14 @@ RUN update-alternatives --install "/usr/bin/gradle" "gradle" "/opt/gradle/bin/gr
     update-alternatives --set "gradle" "/opt/gradle/bin/gradle"
 
 # Chrome
-ENV CHROME_VERSION=70.0.3538.102
+ENV CHROME_VERSION=72.0.3626.81
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-  && apt update -qqy \
-  && apt -qqy install google-chrome-stable=${CHROME_VERSION}-1 \
-  && rm /etc/apt/sources.list.d/google-chrome.list \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
+RUN apt update -qqy
+RUN apt -qqy install google-chrome-stable=${CHROME_VERSION}-1
+RUN rm /etc/apt/sources.list.d/google-chrome.list
+RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 # Preparing Chrome to be used by tests.
 RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
