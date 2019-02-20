@@ -22,12 +22,16 @@ Versions prior to 2.0.0 used Java8.
  * *1.4.1* : Trying ChromeDriver 2.36
  * *1.5.0* : Chrome 67.0.3396.87, ChromeDriver 2.40
  * *2.0.0* : Updated JDK to Java 11. Also in this version: 
-   * Chrome 69.0.3497.100
-   * ChromeDriver 2.42
-   * Gradle 4.9
+   * Chrome v69.0.3497.100
+   * ChromeDriver v2.42
+   * Gradle v4.9
    * Node JS v8.11.2
    * Cleaned up several of the tools that used to be installed, but were not used.
  * *2.0.1* : Added npm v6.4.1 in a separate install.
  * *2.0.2* : Chrome 70.0.3538.102
  * *2.0.3* : Chrome 72.0.3626.81
- * *2.1.0* : Gradle 5.2.1 & Chrome 72.0.3626.109
+ * *2.1.0* : New versions all over:
+   * Gradle v5.2.1
+   * Chrome v72.0.3626.109
+   * Node JS v10.15.1
+   * NPM v5.8.0

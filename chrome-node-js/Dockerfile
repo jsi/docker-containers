@@ -10,12 +10,12 @@ VOLUME /data
 ENV HOME=/data
 
 # Tools
-RUN apt update 
+RUN apt-get update 
 
 # NodeJS
-RUN apt install -y nodejs
-RUN curl -L https://www.npmjs.com/install.sh | sh
-RUN apt clean
+RUN apt-get install -y nodejs
+RUN apt-get install -y npm
+RUN apt-get clean
 
 # Gradle
 ENV GRADLE_VERSION=5.2.1
@@ -32,8 +32,8 @@ ENV CHROME_VERSION=72.0.3626.109
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
-RUN apt update -qqy
-RUN apt -qqy install google-chrome-stable=${CHROME_VERSION}-1
+RUN apt-get update -qqy
+RUN apt-get -qqy install google-chrome-stable=${CHROME_VERSION}-1
 RUN rm /etc/apt/sources.list.d/google-chrome.list
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
