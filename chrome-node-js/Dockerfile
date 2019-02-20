@@ -18,7 +18,7 @@ RUN curl -L https://www.npmjs.com/install.sh | sh
 RUN apt clean
 
 # Gradle
-ENV GRADLE_VERSION=4.9
+ENV GRADLE_VERSION=5.2.1
 ENV GRADLE_HOME=/opt/gradle
 RUN wget --no-check-certificate --no-cookies https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
     && unzip gradle-${GRADLE_VERSION}-bin.zip -d /opt \
@@ -28,7 +28,7 @@ RUN update-alternatives --install "/usr/bin/gradle" "gradle" "/opt/gradle/bin/gr
     update-alternatives --set "gradle" "/opt/gradle/bin/gradle"
 
 # Chrome
-ENV CHROME_VERSION=72.0.3626.81
+ENV CHROME_VERSION=72.0.3626.109
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
