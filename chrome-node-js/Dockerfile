@@ -13,8 +13,8 @@ ENV HOME=/data
 RUN apt-get update 
 
 # NodeJS
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install -y nodejs
-RUN apt-get install -y npm
 RUN apt-get clean
 
 # Gradle

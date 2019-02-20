@@ -34,4 +34,3 @@ Versions prior to 2.0.0 used Java8.
    * Gradle v5.2.1
    * Chrome v72.0.3626.109
    * Node JS v10.15.1
-   * NPM v5.8.0
