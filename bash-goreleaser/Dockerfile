@@ -1,4 +1,9 @@
-FROM bash:5.0
+FROM golang:1.11.5
 
-RUN apk add --no-cache git curl
+# Getting ready:
+#RUN apt-get update
+#RUN apt-get -y upgrade
+#RUN apt-get -y install curl git
+
+# goreleaser
 RUN curl -L https://github.com/goreleaser/goreleaser/releases/download/v0.101.0/goreleaser_Linux_x86_64.tar.gz | tar zx -C /usr/local/bin/
