@@ -13,5 +13,5 @@ Includes:
  * Gradle
 
 Versions:
- * 0.5: Initial attempt
+ * 0.5: Initial attempt with OpenJDK 11, Gradle 4.9 and k6 v0.22.1
  * 0.6 (2019-08-05): Upgrade to OpenJDK 11.0.4, Gradle 5.2.1 and k6 v0.25
