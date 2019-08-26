@@ -34,3 +34,4 @@ Versions prior to 2.0.0 used Java8.
    * Gradle v5.2.1
    * Chrome v72.0.3626.109
    * Node JS v10.15.1
+ * *2.2.0* : Chrome 76.0.3809.100, ChromeDriver 76.0.3809.126
