@@ -28,7 +28,7 @@ RUN update-alternatives --install "/usr/bin/gradle" "gradle" "/opt/gradle/bin/gr
     update-alternatives --set "gradle" "/opt/gradle/bin/gradle"
 
 # Chrome
-ENV CHROME_VERSION=79.0.3945.79
+ENV CHROME_VERSION=79.0.3945.130
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
@@ -41,7 +41,7 @@ RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 RUN ln -s /usr/bin/google-chrome-stable /usr/local/bin/chrome
 
 # Chrome webdriver
-ARG CHROME_DRIVER_VERSION="79.0.3945.79"
+ARG CHROME_DRIVER_VERSION="79.0.3945.36"
 RUN CD_VERSION=$(if [ ${CHROME_DRIVER_VERSION:-latest} = "latest" ]; then echo $(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE); else echo $CHROME_DRIVER_VERSION; fi) \
   && echo "Using chromedriver version: "$CD_VERSION \
   && wget --no-verbose -O /tmp/chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$CD_VERSION/chromedriver_linux64.zip \
